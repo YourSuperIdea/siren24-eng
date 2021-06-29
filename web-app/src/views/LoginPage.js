@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Icon from "@material-ui/core/Icon";
@@ -17,26 +17,22 @@ import CustomInput from "components/CustomInput/CustomInput.js";
 import styles from "assets/jss/material-kit-react/views/loginPage.js";
 import image from "assets/img/background.jpg";
 import { useSelector, useDispatch } from "react-redux";
-import Paper from '@material-ui/core/Paper';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import PhoneIcon from '@material-ui/icons/Phone';
-import EmailIcon from '@material-ui/icons/Email';
-import AlertDialog from '../components/AlertDialog';
-import CountrySelect from '../components/CountrySelect';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import {Button as RegularButton} from "@material-ui/core";
-import {
-  language,
-  default_country_code,
-  features
-} from 'config';
-import { FirebaseContext } from 'common';
+import Paper from "@material-ui/core/Paper";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import PhoneIcon from "@material-ui/icons/Phone";
+import EmailIcon from "@material-ui/icons/Email";
+import AlertDialog from "../components/AlertDialog";
+import CountrySelect from "../components/CountrySelect";
+import TextField from "@material-ui/core/TextField";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import { Button as RegularButton } from "@material-ui/core";
+import { language, default_country_code, features } from "config";
+import { FirebaseContext } from "common";
 
 const useStyles = makeStyles(styles);
 
@@ -49,10 +45,10 @@ export default function LoginPage(props) {
     mobileSignIn,
     signOut,
     sendResetMail,
-    checkUserExists
+    checkUserExists,
   } = api;
 
-  const auth = useSelector(state => state.auth);
+  const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [loginType, setLoginType] = React.useState(0);
   const [activeReg, setActiveReg] = React.useState(false);
@@ -60,71 +56,85 @@ export default function LoginPage(props) {
   const [capatchaReady, setCapatchaReady] = React.useState(false);
 
   const [data, setData] = React.useState({
-    email: '',
-    pass: '',
+    email: "",
+    pass: "",
     country: default_country_code.phone,
-    mobile: '',
-    password: '',
-    otp: '',
+    mobile: "",
+    password: "",
+    otp: "",
     verificationId: null,
-    firstName: '',
-    lastName: '',
-    selectedcountry:default_country_code,
-    usertype:'rider',
-    referralId:''
+    firstName: "",
+    lastName: "",
+    selectedcountry: default_country_code,
+    usertype: "rider",
+    referralId: "",
   });
-  
+
   const [tabDisabled, setTabDisabled] = React.useState(false);
   const [fpEmail, setFpEmail] = React.useState("");
 
-  const [commonAlert, setCommonAlert] = useState({ open: false, msg: '' });
+  const [commonAlert, setCommonAlert] = useState({ open: false, msg: "" });
 
   const classes = useStyles();
   const { ...rest } = props;
 
   useEffect(() => {
-    if(!capatchaReady){
-      window.recaptchaVerifier = new RecaptchaVerifier("sign-in-button",{
-        'size': 'invisible',
-        'callback': function(response) {
+    if (!capatchaReady) {
+      window.recaptchaVerifier = new RecaptchaVerifier("sign-in-button", {
+        size: "invisible",
+        callback: function (response) {
           setCapatchaReady(true);
-        }
+        },
       });
     }
     if (auth.info) {
-      if(auth.info.profile){
+      if (auth.info.profile) {
         let role = auth.info.profile.usertype;
-        if(role==='admin' || role==='fleetadmin'){
-          props.history.push('/dashboard');
+        if (role === "admin" || role === "fleetadmin") {
+          props.history.push("/dashboard");
+        } else if (role === "driver") {
+          props.history.push("/bookings");
+        } else {
+          features.WebsitePagesEnabled
+            ? props.history.push("/")
+            : props.history.push("/bookings");
         }
-        else if (role==='driver'){
-          props.history.push('/bookings');
-        }
-        else {
-          features.WebsitePagesEnabled?props.history.push('/'):props.history.push('/bookings');
-        }
-      }else{
-        if(!activeReg){
+      } else {
+        if (!activeReg) {
           setActiveReg(true);
-          if(auth.info.phoneNumber){
-            setData({...data,mobile:auth.info.phoneNumber})
+          if (auth.info.phoneNumber) {
+            setData({ ...data, mobile: auth.info.phoneNumber });
             setLoginType(1);
-          }else{
-            setData({...data,email:auth.info.email})
+          } else {
+            setData({ ...data, email: auth.info.email });
             setLoginType(0);
           }
           setTabDisabled(true);
           setCommonAlert({ open: true, msg: language.login_success });
         }
-      } 
+      }
     }
-    if (auth.error && auth.error.flag && auth.error.msg.message !== language.not_logged_in) {
-      setCommonAlert({ open: true, msg: auth.error.msg.message })
+    if (
+      auth.error &&
+      auth.error.flag &&
+      auth.error.msg.message !== language.not_logged_in
+    ) {
+      setCommonAlert({ open: true, msg: auth.error.msg.message });
     }
-    if(auth.verificationId){
+    if (auth.verificationId) {
       setData({ ...data, verificationId: auth.verificationId });
     }
-  }, [auth.info, auth.error, auth.verificationId, props.history, data, data.email,activeReg,capatchaReady,RecaptchaVerifier]);
+  }, [
+    auth.info,
+    auth.error,
+    auth.verificationId,
+    props.history,
+    data,
+    data.email,
+    activeReg,
+    capatchaReady,
+    RecaptchaVerifier,
+  ]);
 
   const handleTabChange = (event, newValue) => {
     setLoginType(newValue);
@@ -133,77 +143,87 @@ export default function LoginPage(props) {
   const handleFacebook = (e) => {
     e.preventDefault();
     dispatch(facebookSignIn());
-  }
+  };
 
   const handleCommonAlertClose = (e) => {
     e.preventDefault();
-    setCommonAlert({ open: false, msg: '' });
+    setCommonAlert({ open: false, msg: "" });
     if (auth.error.flag) {
-      setData({...data,email:'',pass:''});
+      setData({ ...data, email: "", pass: "" });
       dispatch(clearLoginError());
     }
   };
 
   const onInputChange = (event) => {
-    setData({ ...data, [event.target.id]: event.target.value })
-  }
+    setData({ ...data, [event.target.id]: event.target.value });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     //eslint-disable-next-line
-    if (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(data.email) && data.pass.length > 0) {
+    if (
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+        data.email
+      ) &&
+      data.pass.length > 0
+    ) {
       dispatch(signIn(data.email, data.pass));
     } else {
-      setCommonAlert({ open: true, msg: language.login_validate_error})
+      setCommonAlert({ open: true, msg: language.login_validate_error });
     }
-    setData({...data,email:'',pass:''});
-  }
+    setData({ ...data, email: "", pass: "" });
+  };
 
   const handleGetOTP = (e) => {
     e.preventDefault();
     const phoneNumber = "+" + data.country + data.mobile;
-    checkUserExists({mobile:phoneNumber}).then((res)=>{
-      if(res.users && res.users.length>0){
-          const appVerifier = window.recaptchaVerifier;
-          authRef
+    checkUserExists({ mobile: phoneNumber }).then((res) => {
+      if (res.users && res.users.length > 0) {
+        const appVerifier = window.recaptchaVerifier;
+        authRef
           .signInWithPhoneNumber(phoneNumber, appVerifier)
-          .then(res => {
-              setData({...data, verificationId: res.verificationId})
+          .then((res) => {
+            setData({ ...data, verificationId: res.verificationId });
           })
-          .catch(error => {
-              setCommonAlert({ open: true, msg: error.code + ": " + error.message})
+          .catch((error) => {
+            setCommonAlert({
+              open: true,
+              msg: error.code + ": " + error.message,
+            });
           });
-      }
-      else{
-          setCommonAlert({ open: true, msg: language.user_does_not_exists})
+      } else {
+        setCommonAlert({ open: true, msg: language.user_does_not_exists });
       }
     });
-  }
+  };
 
   const handleVerifyOTP = (e) => {
     e.preventDefault();
-    if (data.otp.length === 6 && parseInt(data.otp) > 100000 & parseInt(data.otp) < 1000000) {
+    if (
+      data.otp.length === 6 &&
+      (parseInt(data.otp) > 100000) & (parseInt(data.otp) < 1000000)
+    ) {
       dispatch(mobileSignIn(data.verificationId, data.otp));
     } else {
-      setCommonAlert({ open: true, msg: language.otp_validate_error})
+      setCommonAlert({ open: true, msg: language.otp_validate_error });
     }
-  }
+  };
 
   const handleCancel = (e) => {
     e.preventDefault();
     dispatch(signOut());
     setTabDisabled(false);
-    setActiveReg(false);  
-  }
+    setActiveReg(false);
+  };
 
   const onCountryChange = (object, value) => {
     if (value && value.phone) {
-      setData({ ...data, country: value.phone, selectedcountry:value });
+      setData({ ...data, country: value.phone, selectedcountry: value });
     }
   };
 
   const handleRegister = (e) => {
-    props.history.push('/register');
+    props.history.push("/register");
   };
 
   const handleForgotPass = (e) => {
@@ -214,20 +234,20 @@ export default function LoginPage(props) {
   const onFPModalEmailChange = (e) => {
     e.preventDefault();
     setFpEmail(e.target.value);
-  }
+  };
 
   const handleCloseFP = (e) => {
     e.preventDefault();
-    setFpEmail('');
+    setFpEmail("");
     setOpenFPModal(false);
-  }
+  };
 
   const handleResetPassword = (e) => {
     e.preventDefault();
     dispatch(sendResetMail(fpEmail));
-    setFpEmail('');
+    setFpEmail("");
     setOpenFPModal(false);
-  }
+  };
 
   return (
     <div>
@@ -242,7 +262,7 @@ export default function LoginPage(props) {
         style={{
           backgroundImage: "url(" + image + ")",
           backgroundSize: "cover",
-          backgroundPosition: "top center"
+          backgroundPosition: "top center",
         }}
       >
         <div id="sign-in-button" />
@@ -251,26 +271,37 @@ export default function LoginPage(props) {
             <GridItem xs={12} sm={12} md={4}>
               <Card>
                 <form className={classes.form}>
-                  {features.FacebookLoginEnabled?
-                  <CardHeader color="info" className={classes.cardHeader}>
-                    <h4>{language.signIn}</h4>
-                    <div className={classes.socialLine}>
-                      {features.FacebookLoginEnabled?
-                      <Button
-                        justIcon
-                        href="#pablo"
-                        target="_blank"
-                        color="transparent"
-
-                        onClick={handleFacebook}
-                      >
-                        <i className={"fab fa-facebook"} />
-                      </Button>
-                      :null}
-                    </div>
-                  </CardHeader>
-                  :null}
-                  <Paper square className={classes.root} style={!(features.FacebookLoginEnabled)?{paddingTop:20,borderTopLeftRadius:10,borderTopRightRadius:10}:null}>
+                  {features.FacebookLoginEnabled ? (
+                    <CardHeader color="info" className={classes.cardHeader}>
+                      <h4>{language.signIn}</h4>
+                      <div className={classes.socialLine}>
+                        {features.FacebookLoginEnabled ? (
+                          <Button
+                            justIcon
+                            href="#pablo"
+                            target="_blank"
+                            color="transparent"
+                            onClick={handleFacebook}
+                          >
+                            <i className={"fab fa-facebook"} />
+                          </Button>
+                        ) : null}
+                      </div>
+                    </CardHeader>
+                  ) : null}
+                  <Paper
+                    square
+                    className={classes.root}
+                    style={
+                      !features.FacebookLoginEnabled
+                        ? {
+                            paddingTop: 20,
+                            borderTopLeftRadius: 10,
+                            borderTopRightRadius: 10,
+                          }
+                        : null
+                    }
+                  >
                     <Tabs
                       value={loginType}
                       onChange={handleTabChange}
@@ -279,20 +310,30 @@ export default function LoginPage(props) {
                       textColor="inherit"
                       aria-label="switch login type"
                     >
-                      <Tab disabled={tabDisabled} icon={<EmailIcon />} label={language.email_tab}  aria-label="email" />
-                      {features.MobileLoginEnabled?
-                      <Tab disabled={tabDisabled} icon={<PhoneIcon />} label={language.phone_tab} aria-label="phone" />
-                      :null}
+                      <Tab
+                        disabled={tabDisabled}
+                        icon={<EmailIcon />}
+                        label={language.email_tab}
+                        aria-label="email"
+                      />
+                      {features.MobileLoginEnabled ? (
+                        <Tab
+                          disabled={tabDisabled}
+                          icon={<PhoneIcon />}
+                          label={language.phone_tab}
+                          aria-label="phone"
+                        />
+                      ) : null}
                     </Tabs>
                   </Paper>
 
                   <CardBody>
-                    {loginType === 0 ?    //EMAIL
+                    {loginType === 0 ? ( //EMAIL
                       <CustomInput
                         labelText={language.email}
                         id="email"
                         formControlProps={{
-                          fullWidth: true
+                          fullWidth: true,
                         }}
                         inputProps={{
                           type: "email",
@@ -301,18 +342,18 @@ export default function LoginPage(props) {
                             <InputAdornment position="end">
                               <Email className={classes.inputIconsColor} />
                             </InputAdornment>
-                          )
+                          ),
                         }}
                         onChange={onInputChange}
                         value={data.email}
                       />
-                      : null}
-                    {loginType === 0?
+                    ) : null}
+                    {loginType === 0 ? (
                       <CustomInput
                         labelText={language.password}
                         id="pass"
                         formControlProps={{
-                          fullWidth: true
+                          fullWidth: true,
                         }}
                         inputProps={{
                           type: "password",
@@ -321,29 +362,29 @@ export default function LoginPage(props) {
                             <InputAdornment position="end">
                               <Icon className={classes.inputIconsColor}>
                                 lock_outline
-                            </Icon>
+                              </Icon>
                             </InputAdornment>
                           ),
-                          autoComplete: "off"
+                          autoComplete: "off",
                         }}
                         onChange={onInputChange}
                         value={data.pass}
                       />
-                      : null}
-                    { loginType === 1 && features.AllowCountrySelection ?   // COUNTRY
+                    ) : null}
+                    {loginType === 1 && features.AllowCountrySelection ? ( // COUNTRY
                       <CountrySelect
                         value={data.selectedcountry}
                         onChange={onCountryChange}
-                        style={{paddingTop:20}}
+                        style={{ paddingTop: 20 }}
                         disabled={data.verificationId ? true : false}
                       />
-                      : null}
-                    {loginType === 1 ?   //MOBILE
+                    ) : null}
+                    {loginType === 1 ? ( //MOBILE
                       <CustomInput
                         labelText={language.phone}
                         id="mobile"
                         formControlProps={{
-                          fullWidth: true
+                          fullWidth: true,
                         }}
                         inputProps={{
                           required: true,
@@ -352,18 +393,18 @@ export default function LoginPage(props) {
                             <InputAdornment position="end">
                               <PhoneIcon className={classes.inputIconsColor} />
                             </InputAdornment>
-                          )
+                          ),
                         }}
                         onChange={onInputChange}
                         value={data.mobile}
                       />
-                      : null}
-                    {data.verificationId && loginType === 1 ?    // OTP
+                    ) : null}
+                    {data.verificationId && loginType === 1 ? ( // OTP
                       <CustomInput
                         labelText={language.otp}
                         id="otp"
                         formControlProps={{
-                          fullWidth: true
+                          fullWidth: true,
                         }}
                         inputProps={{
                           type: "password",
@@ -372,18 +413,18 @@ export default function LoginPage(props) {
                             <InputAdornment position="end">
                               <Icon className={classes.inputIconsColor}>
                                 lock_outline
-                            </Icon>
+                              </Icon>
                             </InputAdornment>
                           ),
-                          autoComplete: "off"
+                          autoComplete: "off",
                         }}
                         onChange={onInputChange}
                         value={data.otp}
                       />
-                      : null}
-                    {loginType === 0 ?  
-                      <RegularButton 
-                        color="inherit" 
+                    ) : null}
+                    {loginType === 0 ? (
+                      <RegularButton
+                        color="inherit"
                         onClick={handleForgotPass}
                         disableElevation={true}
                         disableFocusRipple={true}
@@ -391,39 +432,68 @@ export default function LoginPage(props) {
                         className={classes.forgotButton}
                         variant="text"
                       >
-                          {language.forgot_password}
+                        {language.forgot_password}
                       </RegularButton>
-                    : null}
+                    ) : null}
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
-                    {loginType === 0 ?
-                      <Button className={classes.normalButton} simple color="primary" size="lg" onClick={handleSubmit}>
+                    {loginType === 0 ? (
+                      <Button
+                        className={classes.normalButton}
+                        simple
+                        color="primary"
+                        size="lg"
+                        onClick={handleSubmit}
+                      >
                         {language.login}
-                    </Button>
-                      : null}
-                    {loginType === 0 ?
-                      <Button className={classes.normalButton} simple color="primary" size="lg" onClick={handleRegister}>
+                      </Button>
+                    ) : null}
+                    {loginType === 0 ? (
+                      <Button
+                        className={classes.normalButton}
+                        simple
+                        color="primary"
+                        size="lg"
+                        onClick={handleRegister}
+                      >
                         {language.register}
-                    </Button>
-                      : null}
+                      </Button>
+                    ) : null}
 
-                    {loginType === 1 && !data.verificationId ?
-                      <Button className={classes.normalButton} simple color="primary" size="lg" onClick={handleGetOTP}>
+                    {loginType === 1 && !data.verificationId ? (
+                      <Button
+                        className={classes.normalButton}
+                        simple
+                        color="primary"
+                        size="lg"
+                        onClick={handleGetOTP}
+                      >
                         {language.get_otp}
-                    </Button>
-                      : null}
-                    { loginType === 1 &&  data.verificationId ?
-                      <Button className={classes.normalButton} simple color="primary" size="lg" onClick={handleVerifyOTP}>
+                      </Button>
+                    ) : null}
+                    {loginType === 1 && data.verificationId ? (
+                      <Button
+                        className={classes.normalButton}
+                        simple
+                        color="primary"
+                        size="lg"
+                        onClick={handleVerifyOTP}
+                      >
                         {language.verify_otp}
-                    </Button>
-                      : null}
+                      </Button>
+                    ) : null}
 
-                    { loginType === 1 && data.verificationId ?
-                      <Button className={classes.normalButton} simple color="primary" size="lg" onClick={handleCancel}>
+                    {loginType === 1 && data.verificationId ? (
+                      <Button
+                        className={classes.normalButton}
+                        simple
+                        color="primary"
+                        size="lg"
+                        onClick={handleCancel}
+                      >
                         {language.cancel}
-                    </Button>
-                      : null}
-
+                      </Button>
+                    ) : null}
                   </CardFooter>
                 </form>
               </Card>
@@ -431,12 +501,18 @@ export default function LoginPage(props) {
           </GridContainer>
         </div>
         <Footer whiteFont />
-        <Dialog open={openFPModal} onClose={handleCloseFP} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title">{language.forgot_pass_title}</DialogTitle>
+        <Dialog
+          open={openFPModal}
+          onClose={handleCloseFP}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog-title">
+            {language.forgot_pass_title}
+          </DialogTitle>
           <DialogContent>
             <DialogContentText>
               {language.forgot_pass_description}
-          </DialogContentText>
+            </DialogContentText>
             <TextField
               autoFocus
               margin="dense"
@@ -449,14 +525,16 @@ export default function LoginPage(props) {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseFP} color="primary">
-            {language.cancel}
-          </Button>
+              {language.cancel}
+            </Button>
             <Button onClick={handleResetPassword} color="primary">
-            {language.reset_password}
-          </Button>
+              {language.reset_password}
+            </Button>
           </DialogActions>
         </Dialog>
-        <AlertDialog open={commonAlert.open} onClose={handleCommonAlertClose}>{commonAlert.msg}</AlertDialog>
+        <AlertDialog open={commonAlert.open} onClose={handleCommonAlertClose}>
+          {commonAlert.msg}
+        </AlertDialog>
       </div>
     </div>
   );
