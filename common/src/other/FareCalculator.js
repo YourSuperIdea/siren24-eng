@@ -1,12 +1,8 @@
-export function FareCalculator(distance, time, rateDetails) {
-  let charged_distance;
-  if (rateDetails.base_distance) {
-    charged_distance = Math.max(distance - rateDetails.base_distance, 0);
-  } else {
-    charged_distance = distance;
-  }
+export function FareCalculator(distance, time, rateDetails) {  
+  const charged_distance = rateDetails.base_distance ? Math.max(distance - rateDetails.base_distance, 0) : distance;
+  const charged_rate = rateDetails.range_divider ? (distance >= rateDetails.range_divider ? rateDetails.long_range_rate : rateDetails.short_range_rate) : rateDetails.rate_per_unit_distance;
   let baseCalculated =
-    parseFloat(rateDetails.rate_per_unit_distance) *
+    parseFloat(charged_rate) *
       parseFloat(charged_distance) +
     parseFloat(rateDetails.rate_per_hour) * (parseFloat(time) / 3600);
   if (rateDetails.base_fare > 0) {

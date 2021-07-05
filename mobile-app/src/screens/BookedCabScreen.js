@@ -546,7 +546,7 @@ export default function BookedCabScreen(props) {
                     marginTop: 12,
                   }}
                 >
-                  {language.driver_assign_messege}
+                  {language.ambulance_assign_messege}
                 </Text>
               </View>
               <View style={styles.buttonContainer}>
