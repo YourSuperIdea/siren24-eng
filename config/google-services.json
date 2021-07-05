@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "174165243026",
+    "project_id": "siren24",
+    "storage_bucket": "siren24.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:174165243026:android:879add2ff8ba7b6973a24b",
+        "android_client_info": {
+          "package_name": "com.yoursuperidea.siren24"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "174165243026-4shpu37dd4o53ld4i8naho4mcsecakev.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDKdm___DX61mPgN3K4BVp74HnY-8gJEw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "174165243026-4shpu37dd4o53ld4i8naho4mcsecakev.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
