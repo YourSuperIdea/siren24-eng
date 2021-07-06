@@ -18,6 +18,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import MoneyIcon from '@material-ui/icons/AttachMoney';
 import NotifyIcon from '@material-ui/icons/NotificationsActive';
 import LocalAtmIcon from '@material-ui/icons/LocalAtm';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import { 
   language,
@@ -29,13 +30,17 @@ import { FirebaseContext } from 'common';
 function AppMenu() {
   const { api } = useContext(FirebaseContext);
   const {
-    signOut
+    signOut,
+    sendResetMail
   } = api;
   const auth = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const LogOut = () => {
     dispatch(signOut());
   };
+  const resetPassword = () => {
+    dispatch(sendResetMail(auth.info.email))
+  }
 
   let isAdmin = auth.info && auth.info.profile && auth.info.profile.usertype === 'admin';
   let isFleetAdmin = auth.info && auth.info.profile && auth.info.profile.usertype === 'fleetadmin';
@@ -177,6 +182,12 @@ function AppMenu() {
             <PersonOutlineIcon />
           </ListItemIcon>
           <Typography variant="inherit">{language.profile}</Typography>
+        </MenuItem>
+        <MenuItem onClick={resetPassword}>
+          <ListItemIcon>
+            <LockOpenIcon />
+          </ListItemIcon>
+          <Typography variant="inherit">{language.reset_password}</Typography>
         </MenuItem>
         <MenuItem onClick={LogOut}>
           <ListItemIcon>
