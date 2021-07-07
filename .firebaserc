@@ -1,5 +1,14 @@
 {
-    "projects": {
-        "default": "siren24"
+  "projects": {
+    "default": "siren24"
+  },
+  "targets": {
+    "siren24": {
+      "hosting": {
+        "default": [
+          "siren24"
+        ]
+      }
     }
+  }
 }
