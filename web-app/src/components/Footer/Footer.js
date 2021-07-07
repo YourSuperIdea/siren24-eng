@@ -60,7 +60,8 @@ export default function Footer(props) {
               <a
                 style={{cursor:'pointer'}}  
                 className={classes.block}
-                onClick={(e) => { e.preventDefault(); history.push('/privacy-policy') }}
+                href="https://siren24privacy.web.app"
+                target="_blank"
               >
                 {language.privacy_policy}
               </a>
