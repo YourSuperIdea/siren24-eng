@@ -33,7 +33,7 @@ import carImageIcon from "../../assets/images/track_Car.png";
 import { FirebaseContext } from "common/src";
 
 export default function BookedCabScreen(props) {
-  const { api } = useContext(FirebaseContext);
+  const { api, singleUserRef } = useContext(FirebaseContext);
   const {
     fetchBookingLocations,
     stopLocationFetch,
@@ -577,6 +577,9 @@ export default function BookedCabScreen(props) {
   };
 
   const onPressCall = (phoneNumber) => {
+    if(!phoneNumber){
+      return Alert.alert("Unable to Call");
+    }
     let call_link =
       Platform.OS == "android"
         ? "tel:" + phoneNumber
@@ -591,6 +594,23 @@ export default function BookedCabScreen(props) {
       })
       .catch((err) => console.error("An error occurred", err));
   };
+
+  const getFleetContact = async (booking) => {
+    if(!booking.driver){
+      return;
+    }
+    if(!booking.fleetadmin){
+      const driverDoc = await singleUserRef(booking.driver).once('value', (data) => data);  
+      return driverDoc.val().mobile;
+    }    
+    const fleetDoc = await singleUserRef(booking.fleetadmin).once('value', (data) => data);
+    return fleetDoc.val().mobile;
+  }
+
+  const callFleetContact = async (booking) => {
+    const ct = await getFleetContact(booking);
+    return ct;
+  }
 
   return (
     <View style={styles.mainContainer}>
@@ -759,9 +779,9 @@ export default function BookedCabScreen(props) {
         ) : null}
         <TouchableOpacity
           style={styles.CallfloatButtonStyle}
-          onPress={() =>
+          onPress={async() =>
             role == "rider"
-              ? onPressCall(curBooking.driver_contact)
+              ? onPressCall(await callFleetContact(curBooking))
               : onPressCall(curBooking.customer_contact)
           }
         >

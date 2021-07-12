@@ -4,4 +4,7 @@
 - [x] Fleet admin login with email & password
 - [x] Price flexibility according to distance travelled
 - [x] Update about us section and header image on about page
-- [x] Link privacy policy page.
+- [x] Link privacy policy page
+- [x] Directly call fleetadmin instead of driver
+- [ ] Replace $ with ₹ in admin panel
+- [ ] Add animation on app startup
