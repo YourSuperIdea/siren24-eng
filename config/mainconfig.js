@@ -3,8 +3,8 @@ export const MainConfig = {
         app_name: "Siren24", 
         app_description: "Ambulance Taxi App",
         app_identifier: "com.yoursuperidea.siren24",
-        ios_app_version: "1.1.3", 
-        android_app_version: "1.1.3"
+        ios_app_version: "1.1.4", 
+        android_app_version: "1.1.4"
     },
     FirebaseConfig: {
     
