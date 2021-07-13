@@ -17,7 +17,10 @@ const useStyles = makeStyles(theme => ({
     flex: '1 0 auto',
   },
   cover: {
-    width: 151,
+    width: 110,
+    backgroundSize: "contain",
+    backgroundPosition: "center",
+    margin: "10px"
   }
 
 }));

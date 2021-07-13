@@ -107,13 +107,13 @@ const Dashboard = () => {
             <Typography variant="h4" style={{margin:"20px 0 0 15px"}}>{language.gross_earning}</Typography>
             <Grid container direction="row" spacing={2}>
                 <Grid item xs>
-                    <DashboardCard title={language.today_text} image={require("../assets/img/money1.jpg")}>{ settings.symbol + ' ' + dailygross}</DashboardCard>
+                    <DashboardCard title={language.today_text} image={require("../assets/img/coin-rupee.png")}>{ settings.symbol + ' ' + dailygross}</DashboardCard>
                 </Grid>
                 <Grid item xs>
-                    <DashboardCard title={language.this_month_text} image={require("../assets/img/money2.jpg")}>{ settings.symbol +' ' +  monthlygross}</DashboardCard>
+                    <DashboardCard title={language.this_month_text} image={require("../assets/img/coin-rupee.png")}>{ settings.symbol +' ' +  monthlygross}</DashboardCard>
                 </Grid>
                 <Grid item xs>
-                    <DashboardCard title={language.total} image={require("../assets/img/money3.jpg")}>{ settings.symbol +' ' +  totalgross}</DashboardCard>
+                    <DashboardCard title={language.total} image={require("../assets/img/coin-rupee.png")}>{ settings.symbol +' ' +  totalgross}</DashboardCard>
                 </Grid>
             </Grid>
             { mylocation?
