@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   Text,
   Alert,
+  StatusBar,
 } from 'react-native';
 import { language } from 'config';
 import { useSelector, useDispatch } from "react-redux";
@@ -66,13 +67,14 @@ export default function AuthLoadingScreen(props) {
 
   return (
     <View style={styles.container}>
+      <StatusBar barStyle="default" />
       <ImageBackground
-        source={require('../../assets/images/intro.jpg')}
+        source={require('../../assets/images/vid.gif')}
         resizeMode="stretch"
         style={styles.imagebg}
       >
         <ActivityIndicator />
-        <Text style={{ paddingBottom: 100 }}>{language.fetching_data}</Text>
+        {/* <Text style={{ paddingBottom: 100 }}>{language.fetching_data}</Text> */}
       </ImageBackground>
     </View>
   );

@@ -7,4 +7,4 @@
 - [x] Link privacy policy page
 - [x] Directly call fleetadmin instead of driver
 - [x] Replace $ with ₹ in admin panel
-- [ ] Add animation on app startup
+- [x] Add animation on app startup

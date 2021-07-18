@@ -11,7 +11,8 @@ import {
   View,
   ImageBackground,
   Dimensions,
-  LogBox
+  LogBox,
+  StatusBar
 } from "react-native";
 import { Provider } from "react-redux";
 import {
@@ -95,13 +96,14 @@ export default function App() {
       </Provider>
       :
       <View style={styles.container}>
+      <StatusBar barStyle="default" />
         <ImageBackground
-          source={require('./assets/images/intro.jpg')}
+        source={require('./assets/images/vid.gif')}
           resizeMode="stretch"
           style={styles.imagebg}
         >
           <ActivityIndicator />
-          <Text style={{ paddingBottom: 100 }}>{updateMsg}</Text>
+          {/* <Text style={{ paddingBottom: 100 }}>{updateMsg}</Text> */}
         </ImageBackground>
       </View>
   );
