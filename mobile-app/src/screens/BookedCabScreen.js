@@ -52,7 +52,7 @@ export default function BookedCabScreen(props) {
   const [curBooking, setCurBooking] = useState(null);
   const cancelReasons = useSelector((state) => state.cancelreasondata.complex);
   const role = useSelector((state) => state.auth.info.profile.usertype);
-  const [cancelReasonSelected, setCancelReasonSelected] = useState(null);
+  const [cancelReasonSelected, setCancelReasonSelected] = useState(0);
   const [otpModalVisible, setOtpModalVisible] = useState(false);
   const lastLocation = useSelector((state) => state.locationdata.coords);
   const [liveRouteCoords, setLiveRouteCoords] = useState(null);
@@ -212,15 +212,15 @@ export default function BookedCabScreen(props) {
       } else {
         setModalVisible(false);
         setSearchModalVisible(false);
-        props.navigation.navigate("RideList");
+        props.navigation.replace("RideList");
       }
     } else {
       setModalVisible(false);
       setSearchModalVisible(false);
       if (role == "driver") {
-        props.navigation.navigate("DriverTrips");
+        props.navigation.replace("DriverTrips");
       } else {
-        props.navigation.navigate("RideList");
+        props.navigation.replace("RideList");
       }
     }
   }, [activeBookings]);

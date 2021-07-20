@@ -116,7 +116,7 @@ export default function IntroScreen(props) {
 
     return (
         <ImageBackground
-            source={require('../../assets/images/bg.jpg')}
+            source={require('../../assets/images/splash.png')}
             resizeMode="stretch"
             style={styles.imagebg}
         >
@@ -182,6 +182,7 @@ const styles = StyleSheet.create({
         top: 0,
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height,
+        backgroundColor: "#888"
     },
     topSpace: {
         marginTop: 0,

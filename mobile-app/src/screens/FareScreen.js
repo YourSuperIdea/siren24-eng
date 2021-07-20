@@ -55,9 +55,9 @@ export default function FareScreen(props) {
             dispatch(clearEstimate());
             dispatch(clearBooking());
             if(bookingdata.booking.mainData.bookLater){
-                props.navigation.navigate('RideList');
+                props.navigation.replace('RideList');
             }else{
-                props.navigation.navigate('BookedCab',{bookingId:bookingdata.booking.booking_id});
+                props.navigation.replace('BookedCab',{bookingId:bookingdata.booking.booking_id});
             }
         }
         if (bookingdata.error && bookingdata.error.flag) {

@@ -193,7 +193,7 @@ export default function EmailLoginScreen(props) {
     return (
         <KeyboardAvoidingView behavior={"position"} style={styles.container}>
             <ImageBackground
-                source={require('../../assets/images/bg.jpg')}
+                source={require('../../assets/images/splash.png')}
                 resizeMode="stretch"
                 style={styles.imagebg}
             >
@@ -352,6 +352,7 @@ const styles = StyleSheet.create({
         top: 0,
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height,
+        backgroundColor: "#888"
     },
     topBar: {
         marginTop: 0,
