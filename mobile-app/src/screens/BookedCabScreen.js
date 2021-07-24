@@ -148,6 +148,33 @@ export default function BookedCabScreen(props) {
     }
   }, [lastLocation, curBooking]);
 
+  useEffect(() => {
+    curBooking &&
+    setTimeout(() => {
+      lastLocation ? 
+      mapRef.current.fitToCoordinates(
+        [
+          { latitude: lastLocation.lat, longitude: lastLocation.lng },
+          { latitude: curBooking.pickup.lat, longitude: curBooking.pickup.lng },
+        ],
+        {
+          edgePadding: { top: 40, right: 40, bottom: 40, left: 40 },
+          animated: true,
+        }
+      ) : 
+      mapRef.current.fitToCoordinates(
+        [
+          { latitude: curBooking.pickup.lat, longitude: curBooking.pickup.lng },
+          { latitude: curBooking.drop.lat, longitude: curBooking.drop.lng },
+        ],
+        {
+          edgePadding: { top: 40, right: 40, bottom: 40, left: 40 },
+          animated: true,
+        }
+      )
+    }, 1000)
+  }, [curBooking])
+
   const fitMap = (point1, point2) => {
     let startLoc = '"' + point1.lat + "," + point1.lng + '"';
     let destLoc = '"' + point2.lat + "," + point2.lng + '"';
@@ -724,6 +751,7 @@ export default function BookedCabScreen(props) {
               }}
               title={curBooking.pickup.add}
               pinColor={colors.GREEN.default}
+              image={require("../../assets/images/marker_green.png")}
             />
             <Marker
               coordinate={{
@@ -731,6 +759,7 @@ export default function BookedCabScreen(props) {
                 longitude: curBooking.drop.lng,
               }}
               title={curBooking.drop.add}
+              image={require("../../assets/images/marker_red.png")}
             />
 
             {liveRouteCoords &&
@@ -739,7 +768,7 @@ export default function BookedCabScreen(props) {
               <MapView.Polyline
                 coordinates={liveRouteCoords}
                 strokeWidth={5}
-                strokeColor={colors.BLUE.default}
+                strokeColor={colors.GREY.default}
               />
             ) : null}
 
@@ -748,7 +777,7 @@ export default function BookedCabScreen(props) {
               <MapView.Polyline
                 coordinates={curBooking.coords}
                 strokeWidth={4}
-                strokeColor={colors.BLUE.default}
+                strokeColor={colors.GREY.default}
               />
             ) : null}
           </MapView>
@@ -1070,7 +1099,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 10,
     borderLeftColor: colors.TRANSPARENT,
     borderRightColor: colors.TRANSPARENT,
-    borderBottomColor: colors.YELLOW.secondary,
+    borderBottomColor: colors.RED.secondary,
     transform: [{ rotate: "180deg" }],
 
     marginTop: -1,

@@ -193,6 +193,7 @@ export default function DriverTrips(props) {
                     title={item.pickup.add}
                     description={language.pickup_location}
                     pinColor={colors.GREEN.default}
+                    image={require("../../assets/images/marker_green.png")}
                   />
 
                   <Marker
@@ -202,12 +203,13 @@ export default function DriverTrips(props) {
                     }}
                     title={item.drop.add}
                     description={language.drop_location}
+                    image={require("../../assets/images/marker_red.png")}
                   />
 
                   <MapView.Polyline
                     coordinates={item.coords}
                     strokeWidth={4}
-                    strokeColor={colors.BLUE.default}
+                    strokeColor={colors.GREY.default}
                   />
                 </MapView>
               </View>

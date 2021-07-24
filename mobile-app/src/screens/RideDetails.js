@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import {
   StyleSheet,
   View,
@@ -21,6 +21,7 @@ export default function RideDetails(props) {
   const paramData = props.navigation.getParam("data");
   const settings = useSelector((state) => state.settingsdata.settings);
   const auth = useSelector((state) => state.auth);
+  const mapRef = useRef(null);
 
   const goBack = () => {
     props.navigation.goBack();
@@ -29,6 +30,15 @@ export default function RideDetails(props) {
   const goToBooking = (id) => {
     props.navigation.replace("BookedCab", { bookingId: id });
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+        mapRef.current.fitToCoordinates([{ latitude: paramData.pickup.lat, longitude: paramData.pickup.lng }, { latitude: paramData.drop.lat, longitude: paramData.drop.lng }], {
+            edgePadding: { top: 40, right: 40, bottom: 40, left: 40 },
+            animated: true,
+        });
+    }, 1000);
+}, []);
 
   return (
     <View style={styles.mainView}>
@@ -57,6 +67,7 @@ export default function RideDetails(props) {
           <View style={styles.mapcontainer}>
             {paramData ? (
               <MapView
+              ref={mapRef}
                 style={styles.map}
                 provider={PROVIDER_GOOGLE}
                 region={{
@@ -72,8 +83,8 @@ export default function RideDetails(props) {
                     longitude: paramData ? paramData.pickup.lng : 0.0,
                   }}
                   title={"marker_title_1"}
-                  description={paramData ? paramData.pickup.add : null}
-                  pinColor={colors.GREEN.default}
+                  description={paramData ? paramData.pickup.add : null}                  
+                  image={require("../../assets/images/marker_green.png")}
                 />
                 <Marker
                   coordinate={{
@@ -82,11 +93,12 @@ export default function RideDetails(props) {
                   }}
                   title={"marker_title_2"}
                   description={paramData.drop.add}
+                  image={require("../../assets/images/marker_red.png")}
                 />
                 <MapView.Polyline
                   coordinates={paramData.coords}
                   strokeWidth={4}
-                  strokeColor={colors.BLUE.default}
+                  strokeColor={colors.GREY.default}
                 />
               </MapView>
             ) : null}
@@ -413,7 +425,7 @@ const styles = StyleSheet.create({
   mapView: {
     justifyContent: "center",
     alignItems: "center",
-    height: 160,
+    height: 260,
     marginBottom: 15,
   },
   mapcontainer: {

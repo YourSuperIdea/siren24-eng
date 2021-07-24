@@ -140,6 +140,7 @@ export default function FareScreen(props) {
                             coordinate={{ latitude: (tripdata.pickup.lat), longitude: (tripdata.pickup.lng) }}
                             title={tripdata.pickup.add}
                             pinColor={colors.GREEN.default}
+                            image={require("../../assets/images/marker_green.png")}
                         >
                         </Marker>
 
@@ -147,6 +148,7 @@ export default function FareScreen(props) {
                         <Marker
                             coordinate={{ latitude: (tripdata.drop.lat), longitude: (tripdata.drop.lng) }}
                             title={tripdata.drop.add}
+                            image={require("../../assets/images/marker_red.png")}
                         >
                         </Marker>
 
@@ -154,7 +156,7 @@ export default function FareScreen(props) {
                             <MapView.Polyline
                                 coordinates={estimate.waypoints}
                                 strokeWidth={4}
-                                strokeColor={colors.BLUE.default}
+                                strokeColor={colors.GREY.default}
                             />
                             : null}
 
@@ -280,7 +282,7 @@ const styles = StyleSheet.create({
         height: 12,
         width: 12,
         borderRadius: 15 / 2,
-        backgroundColor: colors.YELLOW.light
+        backgroundColor: colors.RED.light
     },
     staightLine: {
         height: height / 25,
@@ -308,8 +310,8 @@ const styles = StyleSheet.create({
         ...StyleSheet.absoluteFillObject,
     },
     bottomContainer: { flex: 2.5, alignItems: 'center' },
-    offerContainer: { flex: 1, backgroundColor: colors.YELLOW.secondary, width: width, justifyContent: 'center', borderBottomColor: colors.YELLOW.primary, borderBottomWidth: Platform.OS == 'ios' ? 1 : 0 },
-    offerText: { alignSelf: 'center', color: colors.GREY.btnPrimary, fontSize: 12, fontFamily: 'Roboto-Regular' },
+    offerContainer: { flex: 1, backgroundColor: colors.RED.secondary, width: width, justifyContent: 'center', borderBottomColor: colors.RED.primary, borderBottomWidth: Platform.OS == 'ios' ? 1 : 0 },
+    offerText: { alignSelf: 'center', color: colors.BLACK, fontSize: 14, fontFamily: 'Roboto-Regular' },
     priceDetailsContainer: { flex: 2.3, backgroundColor: colors.WHITE, flexDirection: 'row', position: 'relative', zIndex: 1 },
     priceDetailsLeft: { flex: 19 },
     priceDetailsMiddle: { flex: 2, height: 50, width: 1, alignItems: 'center' },
@@ -328,7 +330,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 10,
         borderLeftColor: colors.TRANSPARENT,
         borderRightColor: colors.TRANSPARENT,
-        borderBottomColor: colors.YELLOW.secondary,
+        borderBottomColor: colors.RED.secondary,
         transform: [
             { rotate: '180deg' }
         ],

@@ -1,5 +1,8 @@
-# Siren 24 English
+# TODO
 
+- [x] Fix sum bugs in text display in language.json
+- [x] Fix radio button overflow in registration page
+- [x] Change base theme to red from yellow
 - [x] Add base price & distance setting in admin panel
 - [x] Fleet admin login with email & password
 - [x] Price flexibility according to distance travelled
@@ -8,3 +11,11 @@
 - [x] Directly call fleetadmin instead of driver
 - [x] Replace $ with ₹ in admin panel
 - [x] Add animation on app startup
+- [x] Add relevant icons for different ambulance types
+- [x] Remove redundant "driver not found" alerts
+- [x] Show about ambulance info before proceeding for booking
+- [x] Fix non responsiveness of cancel ride/cancel reason button
+- [x] Reset navigation stack on cancelling ride
+- [x] Animate map on startup in FareScreen, RideDetails, RideList
+- [x] Change marker in each map
+- [x] Change stroke colour in each map to GREY

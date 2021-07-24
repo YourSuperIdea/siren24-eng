@@ -339,28 +339,28 @@ export default function MapScreen(props) {
         tripdata.pickup.source == "region-change") &&
       tripdata.selected == "pickup"
     ) {
-      Alert.alert(
-        language.no_driver_found_alert_title,
-        language.no_driver_found_alert_messege,
-        [
-          {
-            text: language.no_driver_found_alert_OK_button,
-            onPress: () => setLoadingModal(false),
-          } /*,
-                    { 
-                        text: language.no_driver_found_alert_TRY_AGAIN_button, 
-                        onPress: () => { 
-                            setLoadingModal(true);
-                            updateMap({
-                                latitude: tripdata.pickup.lat,
-                                longitude: tripdata.pickup.lng
-                            },'try-again'); 
-                        }, 
-                        style: 'cancel'
-                    }*/,
-        ],
-        { cancelable: true }
-      );
+      // Alert.alert(
+      //   language.no_driver_found_alert_title,
+      //   language.no_driver_found_alert_messege,
+      //   [
+      //     {
+      //       text: language.no_driver_found_alert_OK_button,
+      //       onPress: () => setLoadingModal(false),
+      //     } /*,
+      //               { 
+      //                   text: language.no_driver_found_alert_TRY_AGAIN_button, 
+      //                   onPress: () => { 
+      //                       setLoadingModal(true);
+      //                       updateMap({
+      //                           latitude: tripdata.pickup.lat,
+      //                           longitude: tripdata.pickup.lng
+      //                       },'try-again'); 
+      //                   }, 
+      //                   style: 'cancel'
+      //               }*/,
+      //   ],
+      //   { cancelable: true }
+      // );
     }
   };
 
@@ -402,13 +402,8 @@ export default function MapScreen(props) {
     }
   };
 
-  //Go to confirm booking page
-  const onPressBook = () => {
-    if (tripdata.pickup && tripdata.drop && tripdata.drop.add) {
-      if (!tripdata.carType) {
-        Alert.alert(language.alert, language.car_type_blank_error);
-      } else {
-        let driver_available = false;
+  const finalizeBook = () => {
+    let driver_available = false;
         for (let i = 0; i < allCarTypes.length; i++) {
           let car = allCarTypes[i];
           if (car.name == tripdata.carType.name && car.minTime) {
@@ -435,6 +430,25 @@ export default function MapScreen(props) {
         } else {
           Alert.alert(language.alert, language.no_driver_found_alert_messege);
         }
+  }
+
+  //Go to confirm booking page
+  const onPressBook = () => {
+    if (tripdata.pickup && tripdata.drop && tripdata.drop.add) {
+      if (!tripdata.carType) {
+        Alert.alert(language.alert, language.car_type_blank_error);
+      } else {        
+        var alertStr = "";
+        tripdata?.carType?.extra_info?.split(",").forEach((ln) => alertStr += ln + "\n")
+        Alert.alert("Facilities Included", alertStr, [{
+          text: "Discard",
+          onPress: () => {return},
+          style: "cancel"
+        }, {
+          text: "OK",
+          onPress: finalizeBook,
+          style: "default"
+        }]);        
       }
     } else {
       Alert.alert(language.alert, language.drop_location_blank_error);
@@ -444,11 +458,21 @@ export default function MapScreen(props) {
   const onPressBookLater = () => {
     if (tripdata.pickup && tripdata.drop && tripdata.drop.add) {
       if (tripdata.carType) {
-        setPickerConfig({
-          dateMode: "date",
-          dateModalOpen: true,
-          selectedDateTime: pickerConfig.selectedDateTime,
-        });
+        var alertStr = "";
+        tripdata?.carType?.extra_info?.split(",").forEach((ln) => alertStr += ln + "\n")
+        Alert.alert("Facilities Included", alertStr, [{
+          text: "Discard",
+          onPress: () => {return},
+          style: "cancel"
+        }, {
+          text: "OK",
+          onPress: () => setPickerConfig({
+            dateMode: "date",
+            dateModalOpen: true,
+            selectedDateTime: pickerConfig.selectedDateTime,
+          }),
+          style: "default"
+        }]);                
       } else {
         Alert.alert(language.alert, language.car_type_blank_error);
       }
@@ -694,8 +718,8 @@ export default function MapScreen(props) {
           >
             <Image
               pointerEvents="none"
-              style={{ marginBottom: 40, height: 40, resizeMode: "contain" }}
-              source={require("../../assets/images/green_pin.png")}
+              style={{ marginBottom: 40, height: 40, resizeMode: "contain" }}              
+              source={require("../../assets/images/marker_green.png")}
             />
           </View>
         ) : (
@@ -715,7 +739,7 @@ export default function MapScreen(props) {
             <Image
               pointerEvents="none"
               style={{ marginBottom: 40, height: 40, resizeMode: "contain" }}
-              source={require("../../assets/images/rsz_2red_pin.png")}
+              source={require("../../assets/images/marker_red.png")}
             />
           </View>
         )}
