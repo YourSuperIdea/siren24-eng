@@ -191,10 +191,10 @@ export default function DriverTrips(props) {
                       longitude: item.pickup.lng,
                     }}
                     title={item.pickup.add}
-                    description={language.pickup_location}
-                    pinColor={colors.GREEN.default}
-                    image={require("../../assets/images/marker_green.png")}
-                  />
+                    description={language.pickup_location}                                        
+                  >
+                    <Image source={require('../../assets/images/marker_green.png')} style={{ height: 40, width: 40 , resizeMode: "contain"}} />
+                  </Marker>
 
                   <Marker
                     coordinate={{
@@ -202,9 +202,10 @@ export default function DriverTrips(props) {
                       longitude: item.drop.lng,
                     }}
                     title={item.drop.add}
-                    description={language.drop_location}
-                    image={require("../../assets/images/marker_red.png")}
-                  />
+                    description={language.drop_location}                    
+                  >
+                    <Image source={require('../../assets/images/marker_red.png')} style={{ height: 40, width: 40 , resizeMode: "contain"}} />
+                  </Marker>
 
                   <MapView.Polyline
                     coordinates={item.coords}

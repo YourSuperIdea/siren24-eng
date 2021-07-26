@@ -8,6 +8,7 @@ import {
   ScrollView,
   Dimensions,
   Platform,
+  Image
 } from "react-native";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import { Header, Rating, Avatar, Button } from "react-native-elements";
@@ -83,18 +84,20 @@ export default function RideDetails(props) {
                     longitude: paramData ? paramData.pickup.lng : 0.0,
                   }}
                   title={"marker_title_1"}
-                  description={paramData ? paramData.pickup.add : null}                  
-                  image={require("../../assets/images/marker_green.png")}
-                />
+                  description={paramData ? paramData.pickup.add : null}                                    
+                >
+                  <Image source={require('../../assets/images/marker_green.png')} style={{ height: 40, width: 40 , resizeMode: "contain"}} />
+                </Marker>
                 <Marker
                   coordinate={{
                     latitude: paramData.drop.lat,
                     longitude: paramData.drop.lng,
                   }}
                   title={"marker_title_2"}
-                  description={paramData.drop.add}
-                  image={require("../../assets/images/marker_red.png")}
-                />
+                  description={paramData.drop.add}                  
+                >
+                  <Image source={require('../../assets/images/marker_red.png')} style={{ height: 40, width: 40 , resizeMode: "contain"}} />
+                </Marker>
                 <MapView.Polyline
                   coordinates={paramData.coords}
                   strokeWidth={4}

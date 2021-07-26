@@ -152,7 +152,7 @@ export default function BookedCabScreen(props) {
     curBooking &&
     setTimeout(() => {
       lastLocation ? 
-      mapRef.current.fitToCoordinates(
+      mapRef?.current?.fitToCoordinates(
         [
           { latitude: lastLocation.lat, longitude: lastLocation.lng },
           { latitude: curBooking.pickup.lat, longitude: curBooking.pickup.lng },
@@ -162,7 +162,7 @@ export default function BookedCabScreen(props) {
           animated: true,
         }
       ) : 
-      mapRef.current.fitToCoordinates(
+      mapRef?.current?.fitToCoordinates(
         [
           { latitude: curBooking.pickup.lat, longitude: curBooking.pickup.lng },
           { latitude: curBooking.drop.lat, longitude: curBooking.drop.lng },
@@ -750,17 +750,19 @@ export default function BookedCabScreen(props) {
                 longitude: curBooking.pickup.lng,
               }}
               title={curBooking.pickup.add}
-              pinColor={colors.GREEN.default}
-              image={require("../../assets/images/marker_green.png")}
-            />
+              pinColor={colors.GREEN.default}              
+            >
+              <Image source={require('../../assets/images/marker_green.png')} style={{ height: 40, width: 40 , resizeMode: "contain"}} />
+            </Marker>
             <Marker
               coordinate={{
                 latitude: curBooking.drop.lat,
                 longitude: curBooking.drop.lng,
               }}
-              title={curBooking.drop.add}
-              image={require("../../assets/images/marker_red.png")}
-            />
+              title={curBooking.drop.add}              
+            >
+              <Image source={require('../../assets/images/marker_red.png')} style={{ height: 40, width: 40 , resizeMode: "contain"}} />
+            </Marker>
 
             {liveRouteCoords &&
             (curBooking.status == "ACCEPTED" ||

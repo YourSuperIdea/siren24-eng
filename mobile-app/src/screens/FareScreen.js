@@ -138,18 +138,17 @@ export default function FareScreen(props) {
                     >
                         <Marker
                             coordinate={{ latitude: (tripdata.pickup.lat), longitude: (tripdata.pickup.lng) }}
-                            title={tripdata.pickup.add}
-                            pinColor={colors.GREEN.default}
-                            image={require("../../assets/images/marker_green.png")}
+                            title={tripdata.pickup.add}                                                        
                         >
+                            <Image source={require('../../assets/images/marker_green.png')} style={{ height: 40, width: 40 , resizeMode: "contain"}} />
                         </Marker>
 
 
                         <Marker
                             coordinate={{ latitude: (tripdata.drop.lat), longitude: (tripdata.drop.lng) }}
-                            title={tripdata.drop.add}
-                            image={require("../../assets/images/marker_red.png")}
+                            title={tripdata.drop.add}                            
                         >
+                            <Image source={require('../../assets/images/marker_red.png')} style={{ height: 40, width: 40 , resizeMode: "contain"}} />
                         </Marker>
 
                         {estimate && estimate.waypoints ?
