@@ -102,10 +102,14 @@ export default function IntroScreen(props) {
         pageActive.current = false;
         props.navigation.navigate("Login");
     }
-
-    const onPressRegister = async () => {
+    
+    const driverRegister = async () =>{
         pageActive.current = false;
-        props.navigation.navigate("Reg");
+        props.navigation.navigate("DriverReg");
+    }
+    const riderRegister = async () =>{
+        pageActive.current = false;
+        props.navigation.navigate("RiderReg");
     }
 
 
@@ -126,10 +130,16 @@ export default function IntroScreen(props) {
                 style={styles.materialButtonDark}
             >{language.login}</MaterialButtonDark>
             {features.MobileLoginEnabled?
-            <MaterialButtonDark
-                onPress={onPressRegister}
-                style={styles.materialButtonDark2}
-            >{language.register}</MaterialButtonDark>
+            <>
+                <MaterialButtonDark
+                    onPress={riderRegister}
+                    style={styles.materialButtonDark2}
+                >Register as Rider</MaterialButtonDark>
+                <MaterialButtonDark
+                    onPress={driverRegister}
+                    style={styles.materialButtonDark2}
+                >Register as Driver</MaterialButtonDark>
+            </>
             :null}
             {(Platform.OS == 'ios' && features.AppleLoginEnabled) || features.FacebookLoginEnabled?
             <View style={styles.seperator}>

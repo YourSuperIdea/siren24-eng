@@ -140,7 +140,7 @@ export default function EditProfilePage(props) {
                                 containerStyle={styles.iconContainer}
                             />
                             <Input
-                                editable={profileData && profileData.loginType == 'social' ? true : false}
+                                editable={profileData && profileData.loginType == 'social' || !auth?.info?.profile?.email}
                                 underlineColorAndroid={colors.TRANSPARENT}
                                 placeholder={language.email_placeholder}
                                 placeholderTextColor={colors.GREY.secondary}

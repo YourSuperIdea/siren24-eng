@@ -536,3 +536,21 @@ exports.user_signup = functions.https.onRequest(async (request, response) => {
         response.send({ error: "User Not Created" });
     }
 });
+
+exports.mobile_user_create = functions.auth.user().onCreate(async (user) => {    
+    if(user.providerData[0].providerId === 'phone' && user.email === null){
+        const regData = {
+            createdAt: user.metadata.creationTime,
+            firstName: "Temporary",
+            lastName: "Name",
+            mobile: user.phoneNumber,
+            email: user.email,
+            usertype: "rider",
+            referralId: user.phoneNumber.slice(-5).toString() + Math.floor(1000 + Math.random() * 9000).toString(),
+            approved: true,
+            walletBalance: 0,
+            pushToken: 'init'
+        };
+        await admin.database().ref('users/' + user.uid).set(regData);
+    }
+})

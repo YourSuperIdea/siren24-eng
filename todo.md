@@ -19,3 +19,5 @@
 - [x] Animate map on startup in FareScreen, RideDetails, RideList
 - [x] Change marker in each map
 - [x] Change stroke colour in each map to GREY
+- [x] Direct phone auth for rider
+- [x] Seperate registeration pages for driver & rider

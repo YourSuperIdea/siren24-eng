@@ -19,6 +19,8 @@ import IntroScreen from './IntroScreen';
 import DriverTrips from './DriverTrips';
 import WithdrawMoneyScreen from './WithdrawMoney';
 import DriverIncomeScreen from './DriverIncomeScreen';
+import RiderRegisteration from './RiderRegisteration';
+import DriverRegisteration from './DriverRegisteration';
 
 export {
     MapScreen,
@@ -41,5 +43,7 @@ export {
     IntroScreen,
     DriverTrips,
     WithdrawMoneyScreen,
-    DriverIncomeScreen
+    DriverIncomeScreen,
+    RiderRegisteration,
+    DriverRegisteration
 };

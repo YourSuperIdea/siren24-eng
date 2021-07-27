@@ -21,7 +21,9 @@ import {
     IntroScreen,
     DriverTrips,
     WithdrawMoneyScreen,
-    DriverIncomeScreen
+    DriverIncomeScreen,
+    RiderRegisteration,
+    DriverRegisteration    
 } from '../screens';
 import SideMenu from '../components/SideMenu';
 
@@ -142,9 +144,20 @@ export const AppStack = {
 
 //authentication stack for user before login
 export const AuthStack = createStackNavigator({
-
-    Reg: {
-        screen: RegistrationPage,
+    // Reg: {
+    //     screen: RegistrationPage,
+    //     navigationOptions: {
+    //         headerShown: false,
+    //     }
+    // },
+    RiderReg: {
+        screen: RiderRegisteration,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    DriverReg: {
+        screen: DriverRegisteration,
         navigationOptions: {
             headerShown: false,
         }

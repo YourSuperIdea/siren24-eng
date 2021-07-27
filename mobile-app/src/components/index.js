@@ -6,6 +6,8 @@ import MapComponent from './MapComponent';
 import PromoComp from './promoComponent';
 import WTransactionHistory from './WalletTransactionHistory';
 import OtpModal from './OtpModal';
+import RiderRegister from './RiderRegister';
+import DriverRegister from './DriverRegister';
 export {
     Background,
     Button,
@@ -14,5 +16,7 @@ export {
     MapComponent,
     PromoComp,
     WTransactionHistory,
-    OtpModal
+    OtpModal,
+    RiderRegister,
+    DriverRegister
 };

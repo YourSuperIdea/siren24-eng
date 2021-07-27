@@ -1,0 +1,9 @@
+00:23:24.547 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
+00:23:25.313 [main] INFO com.firebase.server.forge.App$ - Listening at localhost:9000
+00:29:53.014 [Thread-0] INFO com.firebase.server.forge.App$ - Attempting graceful shutdown.
+00:29:53.051 [NamespaceSystem-akka.actor.default-dispatcher-11] INFO com.firebase.core.namespace.Terminator$Terminator - 2 actors left to terminate: siren24, siren24-default-rtdb
+00:29:53.067 [NamespaceSystem-akka.actor.default-dispatcher-11] INFO com.firebase.core.namespace.NamespaceActor - Stopping namespace actor for siren24-default-rtdb
+00:29:53.069 [NamespaceSystem-akka.actor.default-dispatcher-11] INFO com.firebase.core.namespace.NamespaceActor - Gauges removed for siren24-default-rtdb
+00:29:53.067 [NamespaceSystem-akka.actor.default-dispatcher-6] INFO com.firebase.core.namespace.NamespaceActor - Stopping namespace actor for siren24
+00:29:53.072 [NamespaceSystem-akka.actor.default-dispatcher-6] INFO com.firebase.core.namespace.NamespaceActor - Gauges removed for siren24
+00:29:53.076 [Thread-0] INFO com.firebase.server.forge.App$ - Graceful shutdown complete.

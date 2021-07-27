@@ -14,9 +14,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { FirebaseContext } from 'common/src';
 
 export default function AuthLoadingScreen(props) {
-  const { api } = useContext(FirebaseContext);
+  const { api, authRef } = useContext(FirebaseContext);
   const auth = useSelector(state => state.auth);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    // authRef().signOut().catch((err) => console.log(err))
+  }, [])
 
   useEffect(() => {
     if (auth.info) {

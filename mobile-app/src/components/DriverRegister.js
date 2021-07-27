@@ -16,15 +16,13 @@ import { Icon, Button, Header, Input } from "react-native-elements";
 import { colors } from "../common/theme";
 var { height } = Dimensions.get("window");
 import { language, countries, default_country_code, features } from "config";
-import RadioForm from "react-native-simple-radio-button";
 import RNPickerSelect from "react-native-picker-select";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
-import { useSelector } from "react-redux";
 
-export default function Registration(props) {
+export default function DriverRegister(props) {
   const [state, setState] = useState({
-    usertype: "rider",
+    usertype: "driver",
     firstName: "",
     lastName: "",
     email: "",
@@ -39,10 +37,8 @@ export default function Registration(props) {
     bankName: "",
     licenseImage: null,
     other_info: "",
-    password: "",
-    otp: ""
+    password: ""
   });
-  const [role, setRole] = useState(0);
   const [capturedImage, setCapturedImage] = useState(null);
   const [confirmpassword, setConfirmPassword] = useState("");
   const [countryCode, setCountryCode] = useState(
@@ -113,14 +109,6 @@ export default function Registration(props) {
     setCapturedImage(null);
   };
 
-  const setUserType = (value) => {
-    if (value == 0) {
-      setState({ ...state, usertype: "rider" });
-    } else {
-      setState({ ...state, usertype: "driver" });
-    }
-  };
-
   validateMobile = () => {
     let mobileValid = true;
     if (mobileWithoutCountry.length < 6) {
@@ -157,55 +145,41 @@ export default function Registration(props) {
       }
     }
     return passwordValid;
-  };
-
-  requestOtp = () => {
-    const { requestOtp } = props;    
-    if (validateMobile()) {
-      requestOtp(state.mobile);
-    }
-  }
-  verifyOtp = () => {
-    const { verifyOtp } = props;    
-    if (validateMobile()) {
-      verifyOtp(state.otp);
-    }
-  }
+  };  
 
 
 
   //register button press for validation
-  // onPressRegister = () => {
-  //   const { onPressRegister } = props;    
-  //   const re =
-  //     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  //   if (re.test(state.email)) {
-  //     if (state.usertype == "driver" && state.licenseImage == null) {
-  //       Alert.alert(language.alert, language.proper_input_licenseimage);
-  //     } else {
-  //       if (
-  //         (state.usertype == "driver" && state.vehicleNumber.length > 1) ||
-  //         state.usertype == "rider"
-  //       ) {
-  //         if (state.firstName.length > 0 && state.lastName.length > 0) {
-  //           if (validatePassword("alphanumeric")) {
-  //             if (validateMobile()) {
-  //               onPressRegister(state);
-  //             } else {
-  //               Alert.alert(language.alert, language.mobile_no_blank_error);
-  //             }
-  //           }
-  //         } else {
-  //           Alert.alert(language.alert, language.proper_input_name);
-  //         }
-  //       } else {
-  //         Alert.alert(language.alert, language.proper_input_vehicleno);
-  //       }
-  //     }
-  //   } else {
-  //     Alert.alert(language.alert, language.proper_email);
-  //   }
-  // };
+  onPressRegister = () => {
+    const { onPressRegister } = props;    
+    const re =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (re.test(state.email)) {
+      if (state.licenseImage == null) {
+        Alert.alert(language.alert, language.proper_input_licenseimage);
+      } else {
+        if (
+          (state.vehicleNumber.length > 1)          
+        ) {
+          if (state.firstName.length > 0 && state.lastName.length > 0) {
+            if (validatePassword("alphanumeric")) {
+              if (validateMobile()) {
+                onPressRegister(state);
+              } else {
+                Alert.alert(language.alert, language.mobile_no_blank_error);
+              }
+            }
+          } else {
+            Alert.alert(language.alert, language.proper_input_name);
+          }
+        } else {
+          Alert.alert(language.alert, language.proper_input_vehicleno);
+        }
+      }
+    } else {
+      Alert.alert(language.alert, language.proper_email);
+    }
+  };
 
   return (
     <Background>      
@@ -401,32 +375,7 @@ export default function Registration(props) {
                 inputContainerStyle={styles.inputContainerStyle}
                 containerStyle={styles.textInputStyle}
               />
-            </View>
-            {
-              props.verificationId !== null &&
-              <View style={styles.textInputContainerStyle}>
-                <Icon
-                  name="lock"
-                  type="font-awesome"
-                  color={colors.WHITE}
-                  size={24}
-                  containerStyle={styles.iconContainer}
-                />
-                <Input
-                  editable={true}
-                  underlineColorAndroid={colors.TRANSPARENT}
-                  placeholder="OTP"
-                  placeholderTextColor={colors.WHITE}
-                  value={state.otp}
-                  inputStyle={styles.inputTextStyle}
-                  onChangeText={(text) => {
-                    setState({ ...state, otp: text });
-                  }}
-                  inputContainerStyle={styles.inputContainerStyle}
-                  containerStyle={styles.textInputStyle}
-                />
-              </View>
-            }
+            </View>            
             <View style={styles.textInputContainerStyle}>
               <Icon
                 name="lock"
@@ -448,218 +397,173 @@ export default function Registration(props) {
                 inputContainerStyle={styles.inputContainerStyle}
                 containerStyle={styles.textInputStyle}
               />
-            </View>
-            <View style={styles.textInputContainerStyle}>
-              <Icon
-                name="user"
+            </View>                        
+            <View
+            style={[
+                styles.textInputContainerStyle,
+                { marginTop: 10, marginBottom: 10 },
+            ]}
+            >
+            <Icon
+                name="car"
                 type="font-awesome"
                 color={colors.WHITE}
-                size={24}
-                containerStyle={[styles.iconContainer, { paddingTop: 15 }]}
-              />
-              <Text
-                style={{ marginLeft: 20, marginTop: 0, color: colors.WHITE }}
-              >
-                {language.register_your_ambulance}
-              </Text>
-              <RadioForm
-                radio_props={radio_props}
-                initial={role}
-                formHorizontal={true}
-                labelHorizontal={true}
-                buttonColor={colors.WHITE}
-                labelColor={colors.WHITE}
-                style={{ marginLeft: 10 }}
-                labelStyle={{ marginRight: 20 }}
-                selectedButtonColor={colors.WHITE}
-                selectedLabelColor={colors.WHITE}
-                onPress={(value) => {
-                  setRole(value);
-                  setUserType(value);
+                size={18}
+                containerStyle={[styles.iconContainer, { paddingTop: 20 }]}
+            />
+            {props.cars ? (
+                <RNPickerSelect
+                placeholder={{}}
+                value={state.carType}
+                useNativeAndroidPickerStyle={true}
+                style={{
+                    inputIOS: styles.pickerStyle,
+                    placeholder: {
+                    color: "white",
+                    },
+                    inputAndroid: styles.pickerStyle,
                 }}
-              />
+                onValueChange={(value) =>
+                    setState({ ...state, carType: value })
+                }
+                items={props.cars}
+                />
+            ) : null}
+            </View>                        
+            <View style={styles.textInputContainerStyle}>
+            <Icon
+                name="car"
+                type="font-awesome"
+                color={colors.WHITE}
+                size={18}
+                containerStyle={styles.iconContainer}
+            />
+            <Input
+                editable={true}
+                returnKeyType={"next"}
+                underlineColorAndroid={colors.TRANSPARENT}
+                placeholder={language.vehicle_model_name}
+                placeholderTextColor={colors.WHITE}
+                value={state.vehicleMake}
+                inputStyle={styles.inputTextStyle}
+                onChangeText={(text) => {
+                setState({ ...state, vehicleMake: text });
+                }}
+                inputContainerStyle={styles.inputContainerStyle}
+                containerStyle={styles.textInputStyle}
+            />
             </View>
-            {state.usertype == "driver" ? (
-              <View
-                style={[
-                  styles.textInputContainerStyle,
-                  { marginTop: 10, marginBottom: 10 },
-                ]}
-              >
-                <Icon
-                  name="car"
-                  type="font-awesome"
-                  color={colors.WHITE}
-                  size={18}
-                  containerStyle={[styles.iconContainer, { paddingTop: 20 }]}
-                />
-                {props.cars ? (
-                  <RNPickerSelect
-                    placeholder={{}}
-                    value={state.carType}
-                    useNativeAndroidPickerStyle={true}
-                    style={{
-                      inputIOS: styles.pickerStyle,
-                      placeholder: {
-                        color: "white",
-                      },
-                      inputAndroid: styles.pickerStyle,
-                    }}
-                    onValueChange={(value) =>
-                      setState({ ...state, carType: value })
-                    }
-                    items={props.cars}
-                  />
-                ) : null}
-              </View>
-            ) : null}
-            {state.usertype == "driver" ? (
-              <View style={styles.textInputContainerStyle}>
-                <Icon
-                  name="car"
-                  type="font-awesome"
-                  color={colors.WHITE}
-                  size={18}
-                  containerStyle={styles.iconContainer}
-                />
-                <Input
-                  editable={true}
-                  returnKeyType={"next"}
-                  underlineColorAndroid={colors.TRANSPARENT}
-                  placeholder={language.vehicle_model_name}
-                  placeholderTextColor={colors.WHITE}
-                  value={state.vehicleMake}
-                  inputStyle={styles.inputTextStyle}
-                  onChangeText={(text) => {
-                    setState({ ...state, vehicleMake: text });
-                  }}
-                  inputContainerStyle={styles.inputContainerStyle}
-                  containerStyle={styles.textInputStyle}
-                />
-              </View>
-            ) : null}
-            {state.usertype == "driver" ? (
-              <View style={styles.textInputContainerStyle}>
-                <Icon
-                  name="car"
-                  type="font-awesome"
-                  color={colors.WHITE}
-                  size={18}
-                  containerStyle={styles.iconContainer}
-                />
-                <Input
-                  editable={true}
-                  underlineColorAndroid={colors.TRANSPARENT}
-                  placeholder={language.vehicle_model_no}
-                  placeholderTextColor={colors.WHITE}
-                  value={state.vehicleModel}
-                  inputStyle={styles.inputTextStyle}
-                  onChangeText={(text) => {
-                    setState({ ...state, vehicleModel: text });
-                  }}
-                  inputContainerStyle={styles.inputContainerStyle}
-                  containerStyle={styles.textInputStyle}
-                />
-              </View>
-            ) : null}
-            {state.usertype == "driver" ? (
-              <View style={styles.textInputContainerStyle}>
-                <Icon
-                  name="car"
-                  type="font-awesome"
-                  color={colors.WHITE}
-                  size={18}
-                  containerStyle={styles.iconContainer}
-                />
-                <Input
-                  editable={true}
-                  underlineColorAndroid={colors.TRANSPARENT}
-                  placeholder={language.vehicle_reg_no}
-                  placeholderTextColor={colors.WHITE}
-                  value={state.vehicleNumber}
-                  inputStyle={styles.inputTextStyle}
-                  onChangeText={(text) => {
-                    setState({ ...state, vehicleNumber: text });
-                  }}
-                  inputContainerStyle={styles.inputContainerStyle}
-                  containerStyle={styles.textInputStyle}
-                />
-              </View>
-            ) : null}
-            {state.usertype == "driver" ? (
-              <View style={styles.textInputContainerStyle}>
-                <Icon
-                  name="car"
-                  type="font-awesome"
-                  color={colors.WHITE}
-                  size={18}
-                  containerStyle={styles.iconContainer}
-                />
-                <Input
-                  editable={true}
-                  underlineColorAndroid={colors.TRANSPARENT}
-                  placeholder={language.other_info}
-                  placeholderTextColor={colors.WHITE}
-                  value={state.other_info}
-                  inputStyle={styles.inputTextStyle}
-                  onChangeText={(text) => {
-                    setState({ ...state, other_info: text });
-                  }}
-                  inputContainerStyle={styles.inputContainerStyle}
-                  containerStyle={styles.textInputStyle}
-                />
-              </View>
-            ) : null}
-            {state.usertype == "driver" ? (
-              <View style={styles.textInputContainerStyle}>
-                <Icon
-                  name="numeric"
-                  type={"material-community"}
-                  color={colors.WHITE}
-                  size={20}
-                  containerStyle={styles.iconContainer}
-                />
-                <Input
-                  editable={true}
-                  underlineColorAndroid={colors.TRANSPARENT}
-                  placeholder={language.bankName}
-                  placeholderTextColor={colors.WHITE}
-                  value={state.bankName}
-                  inputStyle={styles.inputTextStyle}
-                  onChangeText={(text) => {
-                    setState({ ...state, bankName: text });
-                  }}
-                  inputContainerStyle={styles.inputContainerStyle}
-                  containerStyle={styles.textInputStyle}
-                />
-              </View>
-            ) : null}
-            {state.usertype == "driver" ? (
-              <View style={styles.textInputContainerStyle}>
-                <Icon
-                  name="numeric"
-                  type={"material-community"}
-                  color={colors.WHITE}
-                  size={20}
-                  containerStyle={styles.iconContainer}
-                />
-                <Input
-                  editable={true}
-                  underlineColorAndroid={colors.TRANSPARENT}
-                  placeholder={language.bankCode}
-                  placeholderTextColor={colors.WHITE}
-                  value={state.bankCode}
-                  inputStyle={styles.inputTextStyle}
-                  onChangeText={(text) => {
-                    setState({ ...state, bankCode: text });
-                  }}
-                  inputContainerStyle={styles.inputContainerStyle}
-                  containerStyle={styles.textInputStyle}
-                />
-              </View>
-            ) : null}
-            {state.usertype == "driver" ? (
-              <View style={styles.textInputContainerStyle}>
+            <View style={styles.textInputContainerStyle}>
+            <Icon
+                name="car"
+                type="font-awesome"
+                color={colors.WHITE}
+                size={18}
+                containerStyle={styles.iconContainer}
+            />
+            <Input
+                editable={true}
+                underlineColorAndroid={colors.TRANSPARENT}
+                placeholder={language.vehicle_model_no}
+                placeholderTextColor={colors.WHITE}
+                value={state.vehicleModel}
+                inputStyle={styles.inputTextStyle}
+                onChangeText={(text) => {
+                setState({ ...state, vehicleModel: text });
+                }}
+                inputContainerStyle={styles.inputContainerStyle}
+                containerStyle={styles.textInputStyle}
+            />
+            </View>            
+            <View style={styles.textInputContainerStyle}>
+            <Icon
+                name="car"
+                type="font-awesome"
+                color={colors.WHITE}
+                size={18}
+                containerStyle={styles.iconContainer}
+            />
+            <Input
+                editable={true}
+                underlineColorAndroid={colors.TRANSPARENT}
+                placeholder={language.vehicle_reg_no}
+                placeholderTextColor={colors.WHITE}
+                value={state.vehicleNumber}
+                inputStyle={styles.inputTextStyle}
+                onChangeText={(text) => {
+                setState({ ...state, vehicleNumber: text });
+                }}
+                inputContainerStyle={styles.inputContainerStyle}
+                containerStyle={styles.textInputStyle}
+            />
+            </View>
+            <View style={styles.textInputContainerStyle}>
+            <Icon
+                name="car"
+                type="font-awesome"
+                color={colors.WHITE}
+                size={18}
+                containerStyle={styles.iconContainer}
+            />
+            <Input
+                editable={true}
+                underlineColorAndroid={colors.TRANSPARENT}
+                placeholder={language.other_info}
+                placeholderTextColor={colors.WHITE}
+                value={state.other_info}
+                inputStyle={styles.inputTextStyle}
+                onChangeText={(text) => {
+                setState({ ...state, other_info: text });
+                }}
+                inputContainerStyle={styles.inputContainerStyle}
+                containerStyle={styles.textInputStyle}
+            />
+            </View>
+            <View style={styles.textInputContainerStyle}>
+            <Icon
+                name="numeric"
+                type={"material-community"}
+                color={colors.WHITE}
+                size={20}
+                containerStyle={styles.iconContainer}
+            />
+            <Input
+                editable={true}
+                underlineColorAndroid={colors.TRANSPARENT}
+                placeholder={language.bankName}
+                placeholderTextColor={colors.WHITE}
+                value={state.bankName}
+                inputStyle={styles.inputTextStyle}
+                onChangeText={(text) => {
+                setState({ ...state, bankName: text });
+                }}
+                inputContainerStyle={styles.inputContainerStyle}
+                containerStyle={styles.textInputStyle}
+            />
+            </View>
+            <View style={styles.textInputContainerStyle}>
+            <Icon
+                name="numeric"
+                type={"material-community"}
+                color={colors.WHITE}
+                size={20}
+                containerStyle={styles.iconContainer}
+            />
+            <Input
+                editable={true}
+                underlineColorAndroid={colors.TRANSPARENT}
+                placeholder={language.bankCode}
+                placeholderTextColor={colors.WHITE}
+                value={state.bankCode}
+                inputStyle={styles.inputTextStyle}
+                onChangeText={(text) => {
+                setState({ ...state, bankCode: text });
+                }}
+                inputContainerStyle={styles.inputContainerStyle}
+                containerStyle={styles.textInputStyle}
+            />
+            </View>
+            <View style={styles.textInputContainerStyle}>
                 <Icon
                   name="numeric"
                   type={"material-community"}
@@ -681,9 +585,7 @@ export default function Registration(props) {
                   containerStyle={styles.textInputStyle}
                 />
               </View>
-            ) : null}
-            {state.usertype == "driver" ? (
-              capturedImage ? (
+            {capturedImage ? (
                 <View style={styles.imagePosition}>
                   <TouchableOpacity
                     style={styles.photoClick}
@@ -741,12 +643,11 @@ export default function Registration(props) {
                     </View>
                   </View>
                 </View>
-              )
-            ) : null}
+              )}
             <View style={styles.buttonContainer}>
               <Button
-                onPress={ props.verificationId ? verifyOtp : requestOtp}
-                title={props.verificationId ? language.register_button : "Continue"}
+                onPress={onPressRegister}
+                title={language.register_button}
                 loading={props.loading}
                 titleStyle={styles.buttonTitle}
                 buttonStyle={styles.registerButton}
