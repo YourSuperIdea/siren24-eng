@@ -37,7 +37,7 @@
         "UIBackgroundModes": ["audio", "location", "fetch"]
       },
       "config": {
-        "googleMapsApiKey": "AIzaSyC8WMUUHpn-PU4pMqq8OA0vvVjzefsDLLg"
+        "googleMapsApiKey": "AIzaSyASODipwXRfzJNuFRN8lCaQeMnxLXSOvgQ"
       },
       "googleServicesFile": "./GoogleService-Info.plist",
       "buildNumber": "1.1.4"
@@ -58,7 +58,7 @@
       "googleServicesFile": "./google-services.json",
       "config": {
         "googleMaps": {
-          "apiKey": "AIzaSyC8WMUUHpn-PU4pMqq8OA0vvVjzefsDLLg"
+          "apiKey": "AIzaSyASODipwXRfzJNuFRN8lCaQeMnxLXSOvgQ"
         }
       },
       "useNextNotificationsApi": true
